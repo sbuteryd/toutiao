@@ -3,13 +3,15 @@
     <!-- 导航栏-->
     <van-nav-bar title="登录" />
     <!-- 登录注册 -->
-    <van-form @submit="onSubmit">
+    <van-form @submit="onSubmit" ref="loginFormRef">
       <van-cell-group>
         <van-field
           v-model="user.mobile"
           name="mobile"
           placeholder="请收入手机号"
           :rules="loginFormRules.mobile"
+          maxlength="11"
+          type="number"
         >
           <i slot="left-icon" class="iconfont iconshouji"></i>
         </van-field>
@@ -18,18 +20,27 @@
           name="code"
           placeholder="请输入验证码"
           :rules="loginFormRules.code"
+          maxlength="6"
+          type="number"
         >
           <i slot="left-icon" class="iconfont iconyanzhengma"></i>
           <template #button>
+            <van-count-down 
+            v-if="countDownTime" 
+            :time="time" format="ss s" 
+            @finish='countDownTime=false'
+            />
             <van-button
+              v-else
               class="send-code"
               size="mini"
               slot="left-icon"
               round
               :hairline="false"
+              native-type="button"
+              @click="sendCode"
               >发送验证码</van-button
             >
-            <!-- <van-count-down millisecond :time="time" format="HH:mm:ss:SS" /> -->
           </template>
         </van-field>
       </van-cell-group>
@@ -45,37 +56,54 @@
 </template>
 
 <script>
-import { login } from '@/api/user'
+import { sendCode } from "@/api/user";
 export default {
-  name: 'Login',
-  data () {
+  name: "Login",
+  data() {
     return {
       loginFormRules: {
-        mobile: [{ required: true, message: '手机号不能为空' }],
-        code: [{ required: true, message: '验证码不能为空' }]
+        mobile: [
+          { required: true, message: "手机号不能为空" },
+          { pattern: /^1[3|5|7|8]\d{9}$/, message: "手机号格式错误" },
+        ],
+        code: [
+          { required: true, message: "验证码不能为空" },
+          { pattern: /^\d{6}$/, message: "验证码格式错误" },
+        ],
       },
       user: {
-        mobile: '13911111111',
-        code: '246810'
-      }
-    }
+        mobile: "13988888888",
+        code: "246810",
+      },
+      time: 60 * 1000,
+      // 时间
+      countDownTime: false,
+    };
   },
   methods: {
-    async onSubmit () {
+    onSubmit() {
+      console.log("123");
+    },
+    async sendCode() {
       try {
-        //   点击按钮->vuex->locastore
-        const { data: res } = await login(this.user)
-        this.$store.commit('setToken', res)
+        await this.$refs.loginFormRef.validate("mobile");
       } catch (err) {
-        if (err.response.status === 400) {
-          this.$toast.fail('手机号或者验证码不正确')
+        return console.log("校验失败");
+      }
+      this.countDownTime = true;
+      try {
+        await sendCode(this.user.mobile);
+        this.$toast("发送成功");
+      } catch (err) {
+        if (err.response.status === 429) {
+          this.$toast("发送太频繁");
         } else {
-          this.$toast.fail('登录失败请稍后重试')
+          this.$toast("请稍后重试");
         }
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
