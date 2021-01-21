@@ -47,6 +47,7 @@
 <script>
 import { login } from '@/api/user'
 export default {
+  name: 'Login',
   data () {
     return {
       loginFormRules: {
@@ -62,9 +63,9 @@ export default {
   methods: {
     async onSubmit () {
       try {
+        //   点击按钮->vuex->locastore
         const { data: res } = await login(this.user)
-
-        console.log(res.data)
+        this.$store.commit('setToken', res)
       } catch (err) {
         if (err.response.status === 400) {
           this.$toast.fail('手机号或者验证码不正确')
