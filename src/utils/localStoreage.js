@@ -1,6 +1,6 @@
 export const setItem = (key, value) => {
   if (typeof value === 'object') {
-    value = JSON.stringify(value.data.token)
+    value = JSON.stringify(value.data)
   }
   window.localStorage.setItem(key, value)
 }

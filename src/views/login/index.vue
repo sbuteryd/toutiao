@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { sendCode } from "@/api/user";
+import { sendCode,login } from "@/api/user";
 export default {
   name: "Login",
   data() {
@@ -81,8 +81,20 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
-      console.log("123");
+   async onSubmit() {
+        try{
+             const {data} =  await login(this.user)
+             console.log('onsubmit',data)
+             this.$toast('登录成功')
+             this.$store.commit('setToken',data)
+             this.$router.back()
+        }catch(err){
+          if(err.response.status === 400) {
+            this.$toast.fail('手机号错误或者验证码错误')
+          }else {
+            this.$toast.fail('登录失败稍后重试')
+          }
+        }
     },
     async sendCode() {
       try {

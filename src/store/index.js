@@ -10,7 +10,6 @@ export default new Vuex.Store({
   },
   mutations: {
     setToken (state, valueToken) {
-      console.log(valueToken)
       state.user = valueToken
       setItem(TOKEN_VALUE, valueToken)
     }
