@@ -13,3 +13,7 @@ export const getItem = (key) => {
     return value
   }
 }
+
+export const removeItem = (tokenStr)=>{
+   window.localStorage.removeItem(tokenStr)
+}

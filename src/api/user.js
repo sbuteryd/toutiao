@@ -14,3 +14,10 @@ export const sendCode = mobile => {
         url: `app/v1_0/sms/codes/${mobile}`
     })
 }
+
+export const getUserinforApi = () =>{
+    return request({
+        method:'GET',
+        url:`/app/v1_0/user`
+    })
+}

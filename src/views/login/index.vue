@@ -1,7 +1,11 @@
 <template>
   <div>
     <!-- 导航栏-->
-    <van-nav-bar title="登录" />
+    <van-nav-bar title="登录"   @click-left="$router.back()">
+      <template #left>
+        <van-icon name="cross" />
+      </template>
+    </van-nav-bar>
     <!-- 登录注册 -->
     <van-form @submit="onSubmit" ref="loginFormRef">
       <van-cell-group>
@@ -25,10 +29,11 @@
         >
           <i slot="left-icon" class="iconfont iconyanzhengma"></i>
           <template #button>
-            <van-count-down 
-            v-if="countDownTime" 
-            :time="time" format="ss s" 
-            @finish='countDownTime=false'
+            <van-count-down
+              v-if="countDownTime"
+              :time="time"
+              format="ss s"
+              @finish="countDownTime = false"
             />
             <van-button
               v-else
@@ -56,7 +61,7 @@
 </template>
 
 <script>
-import { sendCode,login } from "@/api/user";
+import { sendCode, login } from "@/api/user";
 export default {
   name: "Login",
   data() {
@@ -81,20 +86,20 @@ export default {
     };
   },
   methods: {
-   async onSubmit() {
-        try{
-             const {data} =  await login(this.user)
-             console.log('onsubmit',data)
-             this.$toast('登录成功')
-             this.$store.commit('setToken',data)
-             this.$router.back()
-        }catch(err){
-          if(err.response.status === 400) {
-            this.$toast.fail('手机号错误或者验证码错误')
-          }else {
-            this.$toast.fail('登录失败稍后重试')
-          }
+    async onSubmit() {
+      try {
+        const { data } = await login(this.user);
+        console.log("onsubmit", data);
+        this.$toast("登录成功");
+        this.$store.commit("setToken", data);
+        this.$router.back();
+      } catch (err) {
+        if (err.response.status === 400) {
+          this.$toast.fail("手机号错误或者验证码错误");
+        } else {
+          this.$toast.fail("登录失败稍后重试");
         }
+      }
     },
     async sendCode() {
       try {
@@ -143,5 +148,8 @@ export default {
   height: 46px;
   color: #666666;
   background: #ededed;
+}
+.van-icon-cross {
+  color: #fff;
 }
 </style>
