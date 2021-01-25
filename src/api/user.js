@@ -21,3 +21,9 @@ export const getUserinforApi = () =>{
         url:`/app/v1_0/user`
     })
 }
+export const getChannelsApi =()=>{
+    return request({
+        method:'GET',
+        url:`/app/v1_0/user/channels`
+    })
+}
