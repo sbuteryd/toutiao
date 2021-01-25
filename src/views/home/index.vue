@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home-container">
     <!-- 导航栏 -->
     <van-nav-bar fixed>
       <van-button round icon="search" slot="title" type="default">
@@ -8,6 +8,7 @@
     </van-nav-bar>
     <!-- 导航结束 -->
 
+<!-- tabbs -->
     <van-tabs v-model="active">
       <van-tab :title="item.name" v-for="item in channels" :key="item.id">
         <artcle-list></artcle-list>
@@ -105,5 +106,8 @@ export default {
 }
 /deep/.van-tabs__wrap--scrollable .van-tab {
   padding: unset;
+}
+.home-container {
+    margin-top: 200px;
 }
 </style>
