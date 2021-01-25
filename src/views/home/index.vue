@@ -8,10 +8,10 @@
     </van-nav-bar>
     <!-- 导航结束 -->
 
-<!-- tabbs -->
+    <!-- tabbs -->
     <van-tabs v-model="active">
       <van-tab :title="item.name" v-for="item in channels" :key="item.id">
-        <artcle-list></artcle-list>
+        <artcle-list :channel='item'/>
       </van-tab>
 
       <div class="menue-btn" type="default">
@@ -32,8 +32,7 @@ export default {
   data() {
     return {
       active: "",
-      // 频道列表
-      channels: [],
+      channels: [],// 频道列表
     };
   },
   created() {
@@ -42,9 +41,12 @@ export default {
   methods: {
     // 获取频道列表
     async getChannels() {
-      const { data: res } = await getChannelsApi();
-      this.channels = res.data.channels;
-      console.log(res.data.channels);
+      try {
+        const { data: res } = await getChannelsApi();
+        this.channels = res.data.channels;
+      } catch (err) {
+        this.$toast('获取频道数据失败')
+      }
     },
   },
 };
@@ -108,6 +110,7 @@ export default {
   padding: unset;
 }
 .home-container {
-    margin-top: 200px;
+  margin-top: 200px;
+  padding-bottom: 100px;
 }
 </style>

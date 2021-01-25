@@ -15,15 +15,16 @@ export const sendCode = mobile => {
     })
 }
 
-export const getUserinforApi = () =>{
+export const getUserinforApi = () => {
+        return request({
+            method: 'GET',
+            url: `/app/v1_0/user`
+        })
+    }
+    // 获取频道列表
+export const getChannelsApi = () => {
     return request({
-        method:'GET',
-        url:`/app/v1_0/user`
-    })
-}
-export const getChannelsApi =()=>{
-    return request({
-        method:'GET',
-        url:`/app/v1_0/user/channels`
+        method: 'GET',
+        url: `/app/v1_0/user/channels`
     })
 }
