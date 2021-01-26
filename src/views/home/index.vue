@@ -12,6 +12,7 @@
     <van-tabs v-model="active">
       <van-tab :title="item.name" v-for="item in channels" :key="item.id">
         <artcle-list :channel='item'/>
+
       </van-tab>
 
       <div class="menue-btn" type="default">
@@ -24,6 +25,7 @@
 <script>
 import { getChannelsApi } from "@/api/user";
 import ArtcleList from "./components/article-list";
+
 export default {
   name: "Home",
   components: {
@@ -79,10 +81,11 @@ export default {
 
 /deep/.van-tabs__wrap {
   position: fixed;
-  top: 96px;
+  top:90px;
   left: 0;
   right: 0;
   height: 82px;
+  z-index: 1;
 }
 /deep/.van-tab {
   min-width: 191px;
@@ -95,13 +98,14 @@ export default {
 }
 .menue-btn {
   position: fixed;
-  top: 96px;
+  top: 95px;
   right: 0;
   background: rgba(255, 255, 255, 0.85);
   width: 66px;
   height: 82px;
   text-align: center;
   line-height: 66px;
+  z-index: 2;
 }
 .icongengduo {
   font-size: 33px;
@@ -110,7 +114,7 @@ export default {
   padding: unset;
 }
 .home-container {
-  margin-top: 200px;
+  margin-top:174px;
   padding-bottom: 100px;
 }
 </style>
