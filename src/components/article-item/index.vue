@@ -1,7 +1,7 @@
 <template>
   <div class="article-item">
     <van-cell>
-      <div slot="title">
+      <div slot="title" class="van-multi-ellipsis--l2">
         {{ article.title }}
       </div>
       <div slot="label">
@@ -9,13 +9,13 @@
         <div class="conver-wrapper"  v-if="article.cover.type === 3">
           <div class="cover-item" v-for="imgSrc in article.cover.images" :key="imgSrc.art_id">
             <van-image
+              fit="cover"
+              class="right-cover"
               slot="default"
-              width="100"
-              height="100"
               :src="imgSrc"/>
           </div>
         </div>
-        <div>
+        <div class="label-infor-wrapper">
           <span>{{ article.aut_name }}</span>
           <span>{{ article.comm_count }}评论</span>
           <span>{{ article.pubdate }}</span>
@@ -56,6 +56,11 @@ export default {
   }
   .van-cell__value {
     flex: unset;
+    width: 232px;
+    height: 146px;
+    padding-left: 25px;
+  }
+  .right-cover {
     width: 232px;
     height: 146px;
   }
