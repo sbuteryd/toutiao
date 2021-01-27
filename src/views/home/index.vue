@@ -16,25 +16,42 @@
       </van-tab>
 
       <div class="menue-btn" type="default">
-        <i class="iconfont icongengduo"></i>
+        <!--        频道按钮-->
+        <i class="iconfont icongengduo" @click="ischennelEditShow =true"></i>
       </div>
     </van-tabs>
+    <!--  频道编辑弹出层-->
+    <van-popup
+      close-icon-position="top-left"
+      v-model="ischennelEditShow"
+      closeable
+      position="bottom"
+      :style="{ height: '100%' }"
+    >
+      <!-- 频道编辑开始-->
+      <channel-eidt :my-channels="channels" :active="active"/>
+      <!-- 频道编辑结束-->
+    </van-popup>
+    <!-- 频道编辑弹出层-->
   </div>
 </template>
 
 <script>
-import { getChannelsApi } from "@/api/user";
+import {getChannelsApi} from "@/api/user";
 import ArtcleList from "./components/article-list";
+import ChannelEidt from './components/channel-eidt'
 
 export default {
   name: "Home",
   components: {
     ArtcleList,
+    ChannelEidt
   },
   data() {
     return {
       active: "",
-      channels: [],// 频道列表
+      channels: [],// 频道列表,
+      ischennelEditShow: false //控制编辑显示频道显示
     };
   },
   created() {
@@ -44,7 +61,7 @@ export default {
     // 获取频道列表
     async getChannels() {
       try {
-        const { data: res } = await getChannelsApi();
+        const {data: res} = await getChannelsApi();
         this.channels = res.data.channels;
       } catch (err) {
         this.$toast('获取频道数据失败')
@@ -57,6 +74,7 @@ export default {
 <style lang="less" scoped>
 .van-nav-bar {
   text-align: center;
+
   .van-button {
     width: 555px;
     height: 64px;
@@ -64,38 +82,45 @@ export default {
     color: #fff;
     border: none;
     font-size: 28px;
+
     .van-icon {
       font-size: 32px;
     }
   }
 }
-/deep/.van-nav-bar__title {
+
+/deep/ .van-nav-bar__title {
   max-width: unset;
 }
+
 .van-nav-bar .van-icon {
   color: #fff;
 }
-/deep/.van-nav-bar__content {
+
+/deep/ .van-nav-bar__content {
   background: #3296fa;
 }
 
-/deep/.van-tabs__wrap {
+/deep/ .van-tabs__wrap {
   position: fixed;
-  top:90px;
+  top: 90px;
   left: 0;
   right: 0;
   height: 82px;
   z-index: 1;
 }
-/deep/.van-tab {
+
+/deep/ .van-tab {
   min-width: 191px;
   border-right: 1px solid #edeff3;
 }
-/deep/.van-tabs__line {
+
+/deep/ .van-tabs__line {
   width: 31px;
   height: 6px;
   background-color: rgba(50, 150, 250, 1);
 }
+
 .menue-btn {
   position: fixed;
   top: 95px;
@@ -107,14 +132,17 @@ export default {
   line-height: 66px;
   z-index: 2;
 }
+
 .icongengduo {
   font-size: 33px;
 }
-/deep/.van-tabs__wrap--scrollable .van-tab {
+
+/deep/ .van-tabs__wrap--scrollable .van-tab {
   padding: unset;
 }
+
 .home-container {
-  margin-top:174px;
+  margin-top: 174px;
   padding-bottom: 100px;
 }
 </style>
