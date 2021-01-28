@@ -8,8 +8,9 @@
         {{isEdit ? '完成':'编辑'}}
       </van-button>
     </van-cell>
+    <!--我的频道内容-->
     <van-grid class="my-grid" :gutter="10">
-      <van-grid-item  class="grid-item" v-for="(channel,index) in myChannels" :key="index">
+      <van-grid-item  class="grid-item" v-for="(channel,index) in myChannels"  @click="mychannelClick(channel,index)" :key="index">
          <van-icon v-show="isEdit && !fixChannel.includes(channel.id)" slot="icon" name="clear"></van-icon>
         <span class="text" :class="{active: index === active}" slot="text">{{ channel.name }}</span>
       </van-grid-item>
@@ -89,10 +90,17 @@ export default {
     },
     onAddChannel(channel){
       this.myChannels.push(channel)
-      console.log(channel)
     },
-    //删除 我的频道内容
-
+    // 根据按钮编辑删除频道，或者跳转频道
+    mychannelClick(channel,index){
+      // 是 编辑状态就是执行删除
+      //非  编辑状态 跳转页面
+      if(this.isEdit) {
+        this.myChannels.splice(index,1)
+      }else {
+        this.$emit('update-active',index)
+      }
+    }
   }
 }
 </script>

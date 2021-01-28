@@ -29,7 +29,7 @@
       :style="{ height: '100%' }"
     >
       <!-- 频道编辑开始-->
-      <channel-eidt :my-channels="channels" :active="active"/>
+      <channel-eidt :my-channels="channels" :active="active" @update-active="onUpadteActive"/>
       <!-- 频道编辑结束-->
     </van-popup>
     <!-- 频道编辑弹出层-->
@@ -67,6 +67,13 @@ export default {
         this.$toast('获取频道数据失败')
       }
     },
+    //通过子组件传递更改频道状态
+    onUpadteActive(index){
+      // 自组件传过来的index
+      this.active = index
+      // 关闭频道编辑
+      this.ischennelEditShow = false
+    }
   },
 };
 </script>
